@@ -1,9 +1,8 @@
-## :joystick: DOOM via Checkboxes
-> My blog post: [DOOM Rendered via Checkboxes](https://healeycodes.com/doom-rendered-via-checkboxes)
+## :joystick: DOOM via Console.Log()!
 
 <br>
 
-![Preview image of DOOM/DOOM checkboxes](https://github.com/healeycodes/doom-checkboxes/blob/main/preview.png)
+![Preview image of DOOM/DOOM console.log()](https://github.com/healeycodes/doom-checkboxes/blob/main/preview.png)
 
 <br>
 
@@ -11,36 +10,29 @@
 
 ## The Pitch
 
-> I don't think you can really say you've exhaused this until you can run DOOM rendered with checkboxes.
-
-— a commenter wrote [on Hacker News](https://news.ycombinator.com/item?id=28826839)
-
 <br>
 
 Bryan Braun gave us [Checkboxland](https://www.bryanbraun.com/checkboxland/), a unique library for rendering text, shapes, and video, via a grid of checkboxes.
 
-Id software gave us [DOOM](https://en.wikipedia.org/wiki/Doom_(franchise)).
+Id software gave us [DOOM](<https://en.wikipedia.org/wiki/Doom_(franchise)>).
 
 Cornelius Diekmann gave us [DOOM via WebAssembly](https://github.com/diekmann/wasm-fizzbuzz).
 
-Today, I'm pleased to stand on top of these giants' shoulders, and give you DOOM via Checkboxes.
+Healey gave us [DOOM via Checkboxes](https://github.com/healeycodes/doom-checkboxes).
+
+Today, I'm pleased to stand on top of these giants' shoulders, and give you DOOM via Console.log().
 
 ## How
 
-DOOM runs via WebAssembly in a hidden `<canvas>`. I use [HTMLCanvasElement.captureStream()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/captureStream) to turn this into a MediaStream. A `<video>` element displays this MediaStream and is then consumed by [renderVideo](https://www.bryanbraun.com/checkboxland/#rendervideo) from Checkboxland.
-
-Optionally, the `<video>` element can be hidden as well. However, test users were unable to exit the main menu without the aid of the original hi-res DOOM.
-
-Our screen is a 160 by 100 grid of native checkboxes. Higher resolutions work but FPS drops off dramatically.
+DOOM runs via WebAssembly in a hidden `<canvas>`. I use [HTMLCanvasElement.toDataURL()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL) to turn this into a base64 encoded string. A Console.log() is called with two arguments, "%c X", which is a random string that is going to be stylized by the next parameter, which is composed of css properties. I then attribute the base 64 into a background-url property, thus rendering it.
 
 ```js
-const cbl = new Checkboxland({
-  dimensions: "160x100",
-  selector: "#checkboxes",
-});
+const base64Image = canvas.toDataURL().replace(/(\r\n|\n|\r)/gm, "");
+console.log(
+  "%c X",
+  `font-size:400px;color: transparent;background:url(${base64Image}) no-repeat; background-size: contain;margin-top: 140px;margin-left: 60px;`
+);
 ```
-
-The cursed CSS property [zoom](https://developer.mozilla.org/en-US/docs/Web/CSS/zoom) is used to shrink the checkboxes down. `transform: scale(x)` resulted in worse performance, and worse visuals. Unfortunately, this means that Firefox users need to manually zoom out.
 
 > Non-standard: This feature is non-standard and is not on a standards track. Do not use it on production sites facing the Web: it will not work for every user.
 
@@ -54,21 +46,11 @@ const forwardKey = (e, type) => {
   });
   canvas.dispatchEvent(ev);
 };
-
-document.body.addEventListener("keydown", function (e) {
-  forwardKey(e, "keydown");
-});
-
-document.body.addEventListener("keyup", function (e) {
-  forwardKey(e, "keyup");
-});
+document.body.addEventListener("keydown", (e) => forwardKey(e, "keydown"));
+document.body.addEventListener("keyup", (e) => forwardKey(e, "keyup"));
 ```
 
-While the `.wasm` is downloaded and processed, the grid displays a message via [print](https://www.bryanbraun.com/checkboxland/#print).
-
-![DOOM WebAssembly loading..](https://github.com/healeycodes/doom-checkboxes/blob/main/loading.png)
-
-Afterwards, the user is instructed to click anywhere (a user action is required so that the `<video>` can be programmatically played) and the game begins!
+While the `.wasm` is downloaded and processed, the console displays a loading message.
 
 ## Development
 
