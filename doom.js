@@ -211,7 +211,9 @@ WebAssembly.instantiateStreaming(fetch("doom.wasm"), importObject).then(
 
     /*Main game loop*/
     const step = (timestamp) => {
-      // if (shouldClearConsole) {console.clear();}
+      if (shouldClearConsole) {
+        console.clear();
+      }
       ++number_of_animation_frames;
       obj.instance.exports.doom_loop_step();
       shouldClearConsole = false;
