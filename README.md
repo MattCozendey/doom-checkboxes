@@ -6,7 +6,7 @@
 
 <br>
 
-[Play it now](https://mattcozendey.github.io/) (desktop Chrome/Edge only).
+[Play it now](https://mattcozendey.github.io/).
 
 ## The Pitch
 
