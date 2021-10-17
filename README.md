@@ -2,11 +2,11 @@
 
 <br>
 
-![Preview image of DOOM/DOOM console.log()](https://github.com/healeycodes/doom-checkboxes/blob/main/preview.png)
+![Preview image of DOOM/DOOM console.log()](https://github.com/mattcozendey/doom-checkboxes/blob/main/preview.png)
 
 <br>
 
-[Play it now](https://healeycodes.github.io/doom-checkboxes/) (desktop Chrome/Edge only).
+[Play it now](https://mattcozendey.github.io/) (desktop Chrome/Edge only).
 
 ## The Pitch
 
