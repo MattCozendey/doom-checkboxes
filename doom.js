@@ -115,8 +115,8 @@ WebAssembly.instantiateStreaming(fetch("doom.wasm"), importObject).then(
     const doomKeyCode = (keyCode) => {
       // Doom seems to use mostly the same keycodes, except for the following (maybe I'm missing a few.)
       switch (keyCode) {
-        case 8:
-          return 127; // KEY_BACKSPACE
+        case 32:
+          return 32; // KEY_BACKSPACE
         case 17:
           return 0x80 + 0x1d; // KEY_RCTRL
         case 18:
